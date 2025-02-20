@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board de tarefas</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+        </style>
+</head>
+<body>
+    <main>
+        <section id="espacoBoard" class="container">
+            <header>
+                <h1>Board de tarefas</h1>
+            </header>
+                <form id="inputarDados" class="qualities" action="">
+                    <input 
+                        type="text"
+                        placeholder="Nome da tarefa"
+                        class="nomeTarefa grid-item"
+                        id="nomeTarefa"
+                        name="nometarefa"
+                    />
+                    <input 
+                        type="text"
+                        placeholder="Etiqueta"
+                        class="etiqueta grid-item"
+                        id="etiqueta"
+                        name="etiqueta"
+                    />
+                    <button
+                        type="submit"
+                        id="btnAdicionar"
+                        class="grid-item">
+                        +
+                    </button>
+                </form>
+            <div class="lista-tarefas">
+                <ul id="tarefas"></ul>
+
+            </div>
+            <footer>
+                
+            </footer>
+        </section>
+    </main>
+</body>
+    <script src="index.js"></script>
+</html>
