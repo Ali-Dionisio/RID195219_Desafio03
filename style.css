@@ -43,7 +43,8 @@ h1{
 }
 input{
     font-family: "Inter", serif;
-    color: #B1BACB;
+    /* color: #B1BACB; */
+    color: #000;
     font-size: 1rem;
     padding: .6rem;
     border: 1px solid #EEEEEE;
@@ -77,7 +78,21 @@ input::placeholder{
     font-family: "inter";
     font-size: 1rem;
 }
-.espacoTag  #true{
+.newTitulo{
+    font-weight: 500;
+    font-family: "inter";
+    font-size: 1rem;
+    color: rgba(143, 152, 168, 1);
+    text-decoration: line-through;
+    line-height: .1rem;
+}
+/* .espacoTag  #true{ */
+/* #tarefas #true .titulo{
+    color: rgba(143, 152, 168, 1);
+    text-decoration: line-through;
+    line-height: .1rem;
+} */
+#true .titulo{
     color: rgba(143, 152, 168, 1);
     text-decoration: line-through;
     line-height: .1rem;
@@ -131,6 +146,9 @@ ul{
     padding: 12px 24px;
     font-weight: bold;
 }
+#newBotao{
+    display: none;
+}
 #true .btnConcluir{
     display: none;
 }
@@ -140,7 +158,22 @@ ul{
 #true .checkedImg{
     display: flex !important;
 }
+#newImg{
+    display: flex !important;
+}
 
+#contarTarefas{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+#tarefas-progresso {
+    font-family: "Inter", serif;
+    font-weight: 400;
+    font-size: 1rem;
+    color: rgba(177, 186, 203, 1);
+}
 
 @media only screen and (max-width: 768px) {
     
