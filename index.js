@@ -1,34 +1,69 @@
 const dados = [
-    {id: 1, tarefa: 'Implementar tela de listagem de tarefas', etiqueta: 'frontend', concluido: 'false'},
-    {id: 2, tarefa: 'Criar endpoint para cadastro de tarefas', etiqueta: 'backend', concluido: 'false'},
-    {id: 3, tarefa: 'Implementar protótipo da listagem de tarefas', etiqueta: 'UX', concluido: 'true'},
+    {id: '01', tarefa: 'Implementar tela de listagem de tarefas', etiqueta: 'frontend', concluido: 'false'},
+    {id: '02', tarefa: 'Criar endpoint para cadastro de tarefas', etiqueta: 'backend', concluido: 'false'},
+    {id: '03', tarefa: 'Implementar protótipo da listagem de tarefas', etiqueta: 'UX', concluido: 'true'},
 ]
-const contarTarefas = (dados) => {
-    let tarefasProgresso;
-    const tarefasProgressoDOM = document.getElementById('tarefas-progresso');
+const getTasksFromLocalStorage = () => {
+    const localDados = JSON.parse(window.localStorage.getItem('dados'));
+    return localDados ? localDados : [];
 
-    if (tarefasProgressoDOM) tarefasProgresso = tarefasProgressoDOM.value;
+}
+const setTasksLocalStorage = (dados) => {
+    window.localStorage.setItem('dados', JSON.stringify(dados));
+}
+
+// const contarTarefas = (dados) => {
+//     let tarefasProgresso;
+//     const tarefasProgressoDOM = document.getElementById('tarefas-progresso');
+
+//     if (tarefasProgressoDOM) tarefasProgresso = tarefasProgressoDOM.value;
+//     else {
+//         const newTarefaProgressoDOM = document.createElement('div');
+//         newTarefaProgressoDOM.id = 'tarefas-progresso';
+//         document.getElementById('contarTarefas')
+//                 .appendChild(newTarefaProgressoDOM);
+//         tarefasProgresso = newTarefaProgressoDOM;
+//     }
+//     const tarefasEncerradas = dados.filter(( {checked}) => checked).length
+//     tarefasProgresso.textContent = `${tarefasEncerradas} tarefas concluídas`
+// }
+const tarefasConcluidas = () => {
+    let tarefasProgresso = '';
+    const tarefasFooter = document.getElementById('contarTarefas');
+    
+    if (tarefasFooter) tarefasProgresso = tarefasFooter.value;
     else {
-        const newTarefaProgressoDOM = document.createElement('div');
-        newTarefaProgressoDOM.id = 'tarefas-progresso';
-        document.getElementById('contarTarefas')
-                .appendChild(newTarefaProgressoDOM);
-        tarefasProgresso = newTarefaProgressoDOM;
+        const divTarefasConcluidas = document.createElement('div');
+        const textoTarefasConcluidas = document.createElement('p');
+        
+        divTarefasConcluidas.appendChild(textoTarefasConcluidas);
+        tarefasFooter.appendChild(divTarefasConcluidas);
+
+        tarefasProgresso = divTarefasConcluidas
     }
-    const tarefasEncerradas = dados.filter(( {checked}) => checked).length
-    tarefasProgresso.textContent = `${tarefasEncerradas} tarefas concluídas`
+
+    let concluido = 1;
+    // concluido++;
+    // console.log(concluido);
+    tarefasFooter.textContent = `${concluido} tarefas concluídas`
+    //  tarefasProgresso.textContent = `${concluido} tarefas concluídas`;
 }
 
 const concluirTarefa = (buttonId) => {
     dados.filter(({ id }) => parseInt(id) !== parseInt(buttonId));
     const elemento = document.getElementById(buttonId);
-     const titulo = document.querySelector('#tit'+buttonId)
-     const botao = document.querySelector('#but'+buttonId);
-     const img = document.querySelector('#img'+buttonId);
-     elemento.id = `${buttonId} true`;
-     titulo.className = 'newTitulo';
-     botao.id = 'newBotao';
-     img.id = 'newImg';
+    const titulo = document.querySelector('#tit'+buttonId)
+    const botao = document.querySelector('#but'+buttonId);
+    const img = document.querySelector('#img'+buttonId);
+    elemento.id = `${buttonId} true`;
+    titulo.className = 'newTitulo';
+    botao.id = 'newBotao';
+    img.id = 'newImg';
+     
+    let valor = [botao.id];
+    let total = valor.length;
+    console.log(total);
+    tarefasConcluidas();
 }
 
 const CriarListaTarefas = (dado, button) => {
@@ -81,12 +116,24 @@ const CriarListaTarefas = (dado, button) => {
 
     return li;
 }
+ const checkButtonClick = (event) => {
+    const [id] = event.target.id.split('-');
+    const tasks = getTasksFromLocalStorage();
+
+    const updatedTasks = tasks.map((task) => {
+        return parseInt(id) === parseInt(task.id)
+            ? { ...task, checked: event.target.checked }
+            : task;
+    })
+    setTasksLocalStorage(updatedTasks);
+    tarefasProgresso(updatedTasks);
+ }
 
 const getImgInput = ({id, nomeTarefa, etiqueta, concluido}) => {
     concluido = 'false';
     const wrapper = document.createElement('div');
     const imgId = `img${id}`;
-    const img = document.createElement("img");
+    const img = document.createElement("img");    
 
     img.src= 'Checked.png';
     img.className = 'checkedImg'
@@ -119,11 +166,9 @@ const getButtonInput = ({id, dado, concluido}) => {
 }
 
 const getNovaTarefaId = () => {
+    const dados = getTasksFromLocalStorage();
     const lastId = dados[dados.length - 1]?.id;
-    let valor = lastId ? lastId + 1 : 1;
-    for (let i; i = valor; i++) {
-      return i;  
-    }
+    return lastId ? lastId + 1 : 1;
 }
 
 const getNovosDadosTarefa = (event) => {
@@ -141,7 +186,8 @@ const criarTarefa = (event) => {
     const button = getButtonInput(newTarefaData)
     CriarListaTarefas(newTarefaData, button);
 
-    dados : [
+    const dados = getTasksFromLocalStorage();
+    const updatedTasks = [
         ...dados, 
         {
             id: newTarefaData.id, 
@@ -149,27 +195,22 @@ const criarTarefa = (event) => {
             etiqueta: newTarefaData.etiqueta,
         }
     ]
+    setTasksLocalStorage(updatedTasks);
+    // tarefasConcluidas(updatedTasks);
+    // contarTarefas(updatedTasks);
+
+    document.getElementById('nomeTarefa').value = ''
+    document.getElementById('etiqueta').value = ''
 }
-// const contadorTarefas = () => {
-//     const contarTarefas = document.getElementById('contadorTarefas');
-
-//     const contagemId = (dados.length) ;
-
-//     const campoContador = document.createElement('p');
-//     campoContador.textContent = 'Total tarefas: ' + contagemId;
-
-//     contarTarefas.appendChild(campoContador);
-
-// }
 
 window.onload = function() {
     const form = document.getElementById('inputarDados');
     form.addEventListener('submit', criarTarefa)
 
+    const tasks = getTasksFromLocalStorage();
     dados.forEach((dado) => {
         const checkbox = getButtonInput(dado);
         CriarListaTarefas(dado, checkbox)
     })
-    // contadorTarefas();
-    contarTarefas(dados)
+    tarefasConcluidas(dados)
 }
