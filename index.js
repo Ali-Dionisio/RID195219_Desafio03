@@ -12,21 +12,7 @@ const setTasksLocalStorage = (dados) => {
     window.localStorage.setItem('dados', JSON.stringify(dados));
 }
 
-// const contarTarefas = (dados) => {
-//     let tarefasProgresso;
-//     const tarefasProgressoDOM = document.getElementById('tarefas-progresso');
-
-//     if (tarefasProgressoDOM) tarefasProgresso = tarefasProgressoDOM.value;
-//     else {
-//         const newTarefaProgressoDOM = document.createElement('div');
-//         newTarefaProgressoDOM.id = 'tarefas-progresso';
-//         document.getElementById('contarTarefas')
-//                 .appendChild(newTarefaProgressoDOM);
-//         tarefasProgresso = newTarefaProgressoDOM;
-//     }
-//     const tarefasEncerradas = dados.filter(( {checked}) => checked).length
-//     tarefasProgresso.textContent = `${tarefasEncerradas} tarefas concluídas`
-// }
+let concluido = 0;
 const tarefasConcluidas = () => {
     let tarefasProgresso = '';
     const tarefasFooter = document.getElementById('contarTarefas');
@@ -42,11 +28,8 @@ const tarefasConcluidas = () => {
         tarefasProgresso = divTarefasConcluidas
     }
 
-    let concluido = 1;
-    // concluido++;
-    // console.log(concluido);
+     concluido++;
     tarefasFooter.textContent = `${concluido} tarefas concluídas`
-    //  tarefasProgresso.textContent = `${concluido} tarefas concluídas`;
 }
 
 const concluirTarefa = (buttonId) => {
@@ -65,9 +48,24 @@ const concluirTarefa = (buttonId) => {
     console.log(total);
     tarefasConcluidas();
 }
+const desconcluirTarefa = (imgId, buttonId) => {
+    dados.filter(({ id }) => parseInt(id) !== parseInt(imgId));
+    dados.filter(({ id }) => parseInt(id) !== parseInt(buttonId));
+    const elemento = document.getElementById('newImg');
+    const botao = document.getElementById('newBotao');
+    const titulo = document.getElementsByClassName('newTitulo');
+
+    elemento.id = 'img'+imgId;
+    botao.id = 'but'+buttonId;
+    titulo.className = 'titulo';
+    // botao.id = 'newBotao';
+     
+    // let valor = [img.id];
+    // let total = valor.length;
+    // tarefasConcluidas();
+}
 
 const CriarListaTarefas = (dado, button) => {
-    // let concluido = dado.concluido || "false";
     const now = new Date;
     const data = (now)
 
@@ -81,7 +79,6 @@ const CriarListaTarefas = (dado, button) => {
 
     const subTitulo = document.createElement('p');
     subTitulo.className = 'titulo';
-    // subTitulo.id = dado.concluido;
     subTitulo.id = `tit${dado.id}`;
     
     const espacoTag_Dt = document.createElement('div');
@@ -102,8 +99,6 @@ const CriarListaTarefas = (dado, button) => {
     tag.textContent = dado.etiqueta;
     dataTag.textContent = ('Criado em: ' + data.toLocaleDateString());
 
-    // contarTarefas();
-    // li.appendChild(button);
     list.appendChild(li);
     li.appendChild(espacoBotaoTag)
     li.appendChild(espacoTag);
@@ -116,18 +111,18 @@ const CriarListaTarefas = (dado, button) => {
 
     return li;
 }
- const checkButtonClick = (event) => {
-    const [id] = event.target.id.split('-');
-    const tasks = getTasksFromLocalStorage();
+//  const checkButtonClick = (event) => {
+//     const [id] = event.target.id.split('-');
+//     const tasks = getTasksFromLocalStorage();
 
-    const updatedTasks = tasks.map((task) => {
-        return parseInt(id) === parseInt(task.id)
-            ? { ...task, checked: event.target.checked }
-            : task;
-    })
-    setTasksLocalStorage(updatedTasks);
-    tarefasProgresso(updatedTasks);
- }
+//     const updatedTasks = tasks.map((task) => {
+//         return parseInt(id) === parseInt(task.id)
+//             ? { ...task, checked: event.target.checked }
+//             : task;
+//     })
+//     setTasksLocalStorage(updatedTasks);
+//     tarefasProgresso(updatedTasks);
+//  }
 
 const getImgInput = ({id, nomeTarefa, etiqueta, concluido}) => {
     concluido = 'false';
@@ -138,6 +133,11 @@ const getImgInput = ({id, nomeTarefa, etiqueta, concluido}) => {
     img.src= 'Checked.png';
     img.className = 'checkedImg'
     img.id = imgId;
+
+    img.concluido = concluido || false;
+    buttonIdentificador = getButtonInput(id);
+    img.onclick = () => 
+        desconcluirTarefa(id, buttonIdentificador.buttonId);
 
     wrapper.appendChild(img);
 
@@ -196,8 +196,6 @@ const criarTarefa = (event) => {
         }
     ]
     setTasksLocalStorage(updatedTasks);
-    // tarefasConcluidas(updatedTasks);
-    // contarTarefas(updatedTasks);
 
     document.getElementById('nomeTarefa').value = ''
     document.getElementById('etiqueta').value = ''

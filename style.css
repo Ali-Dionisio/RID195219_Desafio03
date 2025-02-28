@@ -84,7 +84,7 @@ input::placeholder{
     font-size: 1rem;
     color: rgba(143, 152, 168, 1);
     text-decoration: line-through;
-    line-height: .1rem;
+    line-height: .1rem; 
 }
 /* .espacoTag  #true{ */
 /* #tarefas #true .titulo{
@@ -215,5 +215,11 @@ ul{
     }
     .dataTag{
         margin-left: 0;
+    }
+    .newTitulo{
+        line-height: 1rem; 
+    }
+    #true .titulo{
+        line-height: 1rem; 
     }
 }
