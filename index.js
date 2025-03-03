@@ -29,7 +29,13 @@ const tarefasConcluidas = () => {
     }
 
      concluido++;
-    tarefasFooter.textContent = `${concluido} tarefas concluídas`
+     if (concluido <= 1){
+         tarefasFooter.textContent = `${concluido} tarefa concluída`
+     }else{
+        tarefasFooter.textContent = `${concluido} tarefas concluídas`
+
+     }
+    tarefasFooter.style = "color: #B1BACB"
 }
 const tarefasDesconcluidas = () => {
     let tarefasProgresso = '';
@@ -52,14 +58,11 @@ const tarefasDesconcluidas = () => {
 
 const concluirTarefa = (buttonId) => {
     dados.filter(({ id }) => parseInt(id) !== parseInt(buttonId));
-    const elemento = document.getElementById(buttonId);
+    // const elemento = document.getElementById(buttonId);
     const titulo = document.querySelector('#tit'+buttonId)
     const botao = document.querySelector('#but'+buttonId);
     const img = document.querySelector('#img'+buttonId);
-    // elemento.id = `${buttonId} true`;
-    // titulo.className = 'newTitulo ' + buttonId;
-    // botao.id = 'newBotao';
-    // img.id = 'newImg';
+
 
     botao.style = "display:none"
     img.style = "display:flex"
@@ -131,18 +134,6 @@ const CriarListaTarefas = (dado, button) => {
 
     return li;
 }
-//  const checkButtonClick = (event) => {
-//     const [id] = event.target.id.split('-');
-//     const tasks = getTasksFromLocalStorage();
-
-//     const updatedTasks = tasks.map((task) => {
-//         return parseInt(id) === parseInt(task.id)
-//             ? { ...task, checked: event.target.checked }
-//             : task;
-//     })
-//     setTasksLocalStorage(updatedTasks);
-//     tarefasProgresso(updatedTasks);
-//  }
 
 const getImgInput = ({id, nomeTarefa, etiqueta, concluido}) => {
     concluido = 'false';
@@ -178,8 +169,6 @@ const getButtonInput = ({id, dado, concluido}) => {
 
     button.onclick = () => 
         concluirTarefa(id);
-    // button.onclick = () => 
-    //     desconcluirTarefa(id);
 
     wrapper.appendChild(button);
 

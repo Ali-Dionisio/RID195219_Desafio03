@@ -156,11 +156,11 @@ ul{
     display: none;
 }
 #true .checkedImg{
-    display: flex !important;
+    display: flex ;
 }
-#newImg{
+/* #newImg{
     display: flex !important;
-}
+}  */
 
 #contarTarefas{
     display: flex;
@@ -178,7 +178,7 @@ ul{
 @media only screen and (max-width: 768px) {
     
     header{
-        margin-top: 35rem;
+        margin-top: 25rem;
         margin-bottom: -2rem;
     }
     /* .nomeTarefa, .etiqueta{
