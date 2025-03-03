@@ -31,6 +31,24 @@ const tarefasConcluidas = () => {
      concluido++;
     tarefasFooter.textContent = `${concluido} tarefas concluídas`
 }
+const tarefasDesconcluidas = () => {
+    let tarefasProgresso = '';
+    const tarefasFooter = document.getElementById('contarTarefas');
+    
+    if (tarefasFooter) tarefasProgresso = tarefasFooter.value;
+    else {
+        const divTarefasConcluidas = document.createElement('div');
+        const textoTarefasConcluidas = document.createElement('p');
+        
+        divTarefasConcluidas.appendChild(textoTarefasConcluidas);
+        tarefasFooter.appendChild(divTarefasConcluidas);
+
+        tarefasProgresso = divTarefasConcluidas
+    }
+
+     concluido--;
+    tarefasFooter.textContent = `${concluido} tarefas concluídas`
+}
 
 const concluirTarefa = (buttonId) => {
     dados.filter(({ id }) => parseInt(id) !== parseInt(buttonId));
@@ -38,31 +56,33 @@ const concluirTarefa = (buttonId) => {
     const titulo = document.querySelector('#tit'+buttonId)
     const botao = document.querySelector('#but'+buttonId);
     const img = document.querySelector('#img'+buttonId);
-    elemento.id = `${buttonId} true`;
-    titulo.className = 'newTitulo';
-    botao.id = 'newBotao';
-    img.id = 'newImg';
-     
+    // elemento.id = `${buttonId} true`;
+    // titulo.className = 'newTitulo ' + buttonId;
+    // botao.id = 'newBotao';
+    // img.id = 'newImg';
+
+    botao.style = "display:none"
+    img.style = "display:flex"
+    titulo.style = "color: rgba(143, 152, 168, 1); text-decoration:line-through"
+    
     let valor = [botao.id];
     let total = valor.length;
-    console.log(total);
     tarefasConcluidas();
 }
-const desconcluirTarefa = (imgId, buttonId) => {
-    dados.filter(({ id }) => parseInt(id) !== parseInt(imgId));
-    dados.filter(({ id }) => parseInt(id) !== parseInt(buttonId));
-    const elemento = document.getElementById('newImg');
-    const botao = document.getElementById('newBotao');
-    const titulo = document.getElementsByClassName('newTitulo');
 
-    elemento.id = 'img'+imgId;
-    botao.id = 'but'+buttonId;
-    titulo.className = 'titulo';
-    // botao.id = 'newBotao';
-     
-    // let valor = [img.id];
-    // let total = valor.length;
-    // tarefasConcluidas();
+const desconcluirTarefa = (imgId) => {
+    dados.filter(({ id }) => parseInt(id) !== parseInt(imgId));
+    // dados.filter(({ id }) => parseInt(id) !== parseInt(buttonId));
+    const elemento = document.getElementById(imgId);
+    const titulo = document.querySelector('#tit'+imgId)
+    const botao = document.querySelector('#but'+imgId);
+    const img = document.querySelector('#img'+imgId);
+
+    img.style = "display:none"
+    botao.style = "display:flex"
+    titulo.style = "color: rgba(0, 0, 0); text-decoration:none"
+    
+     tarefasDesconcluidas();
 }
 
 const CriarListaTarefas = (dado, button) => {
@@ -135,9 +155,8 @@ const getImgInput = ({id, nomeTarefa, etiqueta, concluido}) => {
     img.id = imgId;
 
     img.concluido = concluido || false;
-    buttonIdentificador = getButtonInput(id);
     img.onclick = () => 
-        desconcluirTarefa(id, buttonIdentificador.buttonId);
+        desconcluirTarefa(id);
 
     wrapper.appendChild(img);
 
@@ -159,6 +178,8 @@ const getButtonInput = ({id, dado, concluido}) => {
 
     button.onclick = () => 
         concluirTarefa(id);
+    // button.onclick = () => 
+    //     desconcluirTarefa(id);
 
     wrapper.appendChild(button);
 

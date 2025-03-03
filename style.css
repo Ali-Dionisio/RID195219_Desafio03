@@ -78,14 +78,14 @@ input::placeholder{
     font-family: "inter";
     font-size: 1rem;
 }
-.newTitulo{
+/* .newTitulo{
     font-weight: 500;
     font-family: "inter";
     font-size: 1rem;
     color: rgba(143, 152, 168, 1);
     text-decoration: line-through;
     line-height: .1rem; 
-}
+} */
 /* .espacoTag  #true{ */
 /* #tarefas #true .titulo{
     color: rgba(143, 152, 168, 1);
