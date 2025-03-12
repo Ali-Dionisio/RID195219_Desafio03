@@ -176,6 +176,14 @@ ul{
 }
 
 @media only screen and (max-width: 768px) {
+
+    #espacoBoard{
+        width: 90%;
+        padding: .1rem .9rem;
+    }
+    input{
+        width: 90%;
+    }
     
     header{
         margin-top: 25rem;
@@ -191,7 +199,7 @@ ul{
         margin-top: 4rem;
     }
     #btnAdicionar{
-        width: 100%;
+        width: 97%;
     }
     #qualities {
         flex-direction: column;
